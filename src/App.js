@@ -69,7 +69,7 @@ const App = () => {
   });
 
   function handleSessionUp() {
-    setState({...state, session: state.session + 1});
+    setState({...state, session: state.session == 60 ? state.session : state.session + 1});
   }
 
   function handleSessionDown() {
@@ -77,7 +77,7 @@ const App = () => {
   }
 
   function handleBreakUp() {
-    setState({...state, break: state.break + 1});
+    setState({...state, break: state.break == 60 ? state.break : state.break + 1});
   }
 
   function handleBreakDown() {
