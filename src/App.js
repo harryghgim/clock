@@ -68,7 +68,7 @@ const Timer = ({state, setState}) => {
   }
   return (
     <div>
-      <h2 id="timer-label">{session == 0 ? "Break" : "Session"}</h2>
+      <h2 id="timer-label">{sessionFlag ? "Session" : "Break"}</h2>
       <div id="time-left">{timer}</div>
       <div>
         <Button onClick={handleStartStop} id="start_stop" name="play_pause" />
