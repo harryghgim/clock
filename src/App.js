@@ -9,29 +9,58 @@ const Button = (props) => {
   )
 }
 
-const Session = (props) => {
-  const { length, handleDown, handleUp } = props;
+const Session = ({ state, setState }) => {  
+  const { session, timer } = state
+  function handleSessionUp() {
+    setState(state => ({
+      ...state, 
+      session: session == 60 ? session : session + 1,
+      timer: timer == 60 ? timer : timer + 1,
+    }));
+  }
+
+  function handleSessionDown() {
+    setState(state => ({
+      ...state, 
+      session: session == 1 ? session : session - 1,
+      timer: timer == 1 ? timer : timer - 1,
+    }));
+  }
+
   return (
     <div>
       <h2 id="session-label">Session Length</h2>
       <div>
-        <Button id="session-decrement" name="arrow_downward" onClick={handleDown}/>
-        <span id="session-length">{length}</span>
-        <Button id="session-increment" name="arrow_upward" onClick={handleUp}/>
+        <Button id="session-decrement" name="arrow_downward" onClick={handleSessionDown}/>
+        <span id="session-length">{session}</span>
+        <Button id="session-increment" name="arrow_upward" onClick={handleSessionUp}/>
       </div>
     </div>
   );
 };
 
-const Break = (props) => {
-  const { length, handleDown, handleUp } = props;
+const Break = ({ state, setState }) => {
+  const { break: breakLength } = state;
+  function handleBreakUp() {
+    setState(state => ({
+      ...state, 
+      break: breakLength == 60 ? breakLength : breakLength + 1,
+    }));
+  }
+
+  function handleBreakDown() {
+    setState(state => ({
+      ...state, 
+      break: breakLength == 1 ? breakLength : breakLength - 1,
+    }));
+  }
   return (
     <div>
       <h2 id="break-label">Break Length</h2>
       <div>
-        <Button id="break-decrement" name="arrow_downward" onClick={handleDown}/>
-        <span id="break-length">{length}</span>
-        <Button id="break-increment" name="arrow_upward" onClick={handleUp}/>
+        <Button id="break-decrement" name="arrow_downward" onClick={handleBreakDown}/>
+        <span id="break-length">{breakLength}</span>
+        <Button id="break-increment" name="arrow_upward" onClick={handleBreakUp}/>
       </div>
     </div>
   );
@@ -87,42 +116,21 @@ const App = () => {
     sessionFlag: true,
   });
 
-  function handleSessionUp() {
-    setState(state => ({
-      ...state, 
-      session: state.session == 60 ? state.session : state.session + 1,
-      timer: state.timer == 60 ? state.timer : state.timer + 1,
-    }));
-  }
-
-  function handleSessionDown() {
-    setState(state => ({
-      ...state, 
-      session: state.session == 1 ? state.session : state.session - 1,
-      timer: state.timer == 1 ? state.timer : state.timer - 1,
-    }));
-  }
-
-  function handleBreakUp() {
-    setState(state => ({
-      ...state, 
-      break: state.break == 60 ? state.break : state.break + 1,
-    }));
-  }
-
-  function handleBreakDown() {
-    setState(state => ({
-      ...state, 
-      break: state.break == 1 ? state.break: state.break - 1,
-    }));
-  }
-
   return (
     <div>
       <h1>Clock</h1>
-      <Break length={state.break} handleUp={handleBreakUp} handleDown={handleBreakDown} />
-      <Session length={state.session} handleUp={handleSessionUp} handleDown={handleSessionDown} />
-      <Timer state={state} setState={setState} />
+      <Break 
+        state={state}
+        setState={setState}
+      />
+      <Session 
+        state={state}
+        setState={setState}
+      />
+      <Timer 
+        state={state} 
+        setState={setState} 
+      />
     </div>
   );
 };
