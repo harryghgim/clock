@@ -91,6 +91,7 @@ const App = () => {
     setState(state => ({
       ...state, 
       session: state.session == 60 ? state.session : state.session + 1,
+      timer: state.timer == 60 ? state.timer : state.timer + 1,
     }));
   }
 
@@ -98,6 +99,7 @@ const App = () => {
     setState(state => ({
       ...state, 
       session: state.session == 1 ? state.session : state.session - 1,
+      timer: state.timer == 1 ? state.timer : state.timer - 1,
     }));
   }
 
