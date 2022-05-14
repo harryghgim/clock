@@ -10,20 +10,27 @@ const Button = (props) => {
 }
 
 const Session = ({ state, setState }) => {  
-  const { session, timer } = state
+  const { session, timer, play } = state;
+  
   function handleSessionUp() {
+    if (play) {
+      return;
+    }
     setState(state => ({
       ...state, 
       session: session == 60 ? session : session + 1,
-      timer: timer == 60 ? timer : timer + 1,
+      timer: timer == 60 * 60 ? timer : timer + 60,
     }));
   }
 
   function handleSessionDown() {
+    if (play) {
+      return;
+    }
     setState(state => ({
       ...state, 
       session: session == 1 ? session : session - 1,
-      timer: timer == 1 ? timer : timer - 1,
+      timer: timer == 60 ? timer : timer - 60,
     }));
   }
 
@@ -40,15 +47,21 @@ const Session = ({ state, setState }) => {
 };
 
 const Break = ({ state, setState }) => {
-  const { break: breakLength } = state;
-  function handleBreakUp() {
+  const { break: breakLength, play } = state;
+  function handleBreakUp(e) {
+    if (play) {
+      return;
+    }
     setState(state => ({
       ...state, 
       break: breakLength == 60 ? breakLength : breakLength + 1,
     }));
   }
 
-  function handleBreakDown() {
+  function handleBreakDown(e) {
+    if (play) {
+      return;
+    }
     setState(state => ({
       ...state, 
       break: breakLength == 1 ? breakLength : breakLength - 1,
@@ -68,7 +81,7 @@ const Break = ({ state, setState }) => {
 
 const Timer = ({state, setState}) => {
   const { session, play, timer, break: breakLength, sessionFlag } = state;
-  const min = Math.floor(timer / 60);
+  const min = String(Math.floor(timer / 60)).padStart(2, '0');
   const sec = String(timer % 60).padStart(2, '0');
 
   useEffect(() => {
@@ -86,12 +99,20 @@ const Timer = ({state, setState}) => {
 
   useEffect(() => {
     if (timer === 0) {
-      setState(state => ({...state, timer: sessionFlag ? session : breakLength}));
+      setState(state => ({...state, timer: sessionFlag ? session * 60 : breakLength * 60}));
     }
   }, [sessionFlag]);
 
   function reset() {
-    setState(state => ({...state, break: 5, session: 25, timer: 25 * 60, play: false}));
+    setState(state => ({
+      ...state, 
+      break: 5, 
+      session: 25, 
+      timer: 25 * 60, 
+      play: false,
+      sessionFlag: true,
+    }));
+    
   }
   function handleStartStop() {
     setState(state => ({...state, play: !play}));
