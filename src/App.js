@@ -68,6 +68,8 @@ const Break = ({ state, setState }) => {
 
 const Timer = ({state, setState}) => {
   const { session, play, timer, break: breakLength, sessionFlag } = state;
+  const min = Math.floor(timer / 60);
+  const sec = String(timer % 60).padStart(2, '0');
 
   useEffect(() => {
     if (play) {
@@ -89,7 +91,7 @@ const Timer = ({state, setState}) => {
   }, [sessionFlag]);
 
   function reset() {
-    setState(state => ({...state, break: 5, session: 25, timer: 25, play: false}));
+    setState(state => ({...state, break: 5, session: 25, timer: 25 * 60, play: false}));
   }
   function handleStartStop() {
     setState(state => ({...state, play: !play}));
@@ -98,7 +100,7 @@ const Timer = ({state, setState}) => {
   return (
     <div>
       <h2 id="timer-label">{sessionFlag ? "Session" : "Break"}</h2>
-      <div id="time-left">{timer}</div>
+      <div id="time-left">{min}:{sec}</div>
       <div>
         <Button onClick={handleStartStop} id="start_stop" name="play_pause" />
         <Button id="reset" name="restart_alt" onClick={reset}/>
@@ -112,7 +114,7 @@ const App = () => {
     break: 5,
     session: 25,
     play: false,
-    timer: 25,
+    timer: 25 * 60,
     sessionFlag: true,
   });
 
