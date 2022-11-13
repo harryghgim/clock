@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import beep from "./beep.wav"
 
 const Button = (props) => {
   const { id, name, onClick } = props;
@@ -97,10 +98,9 @@ const Break = ({ state, setState }) => {
 
 const Beep = ({ state }) => {
   const { beepRef } = state;
-  const source = process.env.PUBLIC_URL + "/beep.wmv";
   return (
     <audio id="beep" ref={beepRef}>
-      <source src={source} type="audio/wav" />
+      <source src={beep} type="audio/wav" />
       Your browser does not support the audio tag.
     </audio>
   );
