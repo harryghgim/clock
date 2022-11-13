@@ -1,5 +1,6 @@
 # Build a 25 + 5 Clock
-[Visit my Build a 25 + 5 Clock page]().
+[Visit my Build a 25 + 5 Clock page](https://harryghgim.github.io/timer/).
+[Go to git repository](https://github.com/harryghgim/timer).
 
 This project is my work of **Bulild a 25 + 5 Clock** project, which is one of five projects to pass [Front End Development Libraries](https://www.freecodecamp.org/learn/front-end-development-libraries) certification maintained by FreeCodeCamp. 
 
