@@ -97,9 +97,10 @@ const Break = ({ state, setState }) => {
 
 const Beep = ({ state }) => {
   const { beepRef } = state;
+  const source = process.env.PUBLIC_URL + "/beep.wmv";
   return (
     <audio id="beep" ref={beepRef}>
-      <source src={process.env.REACT_APP_BEEP_SOURCE} type="audio/wav" />
+      <source src={source} type="audio/wav" />
       Your browser does not support the audio tag.
     </audio>
   );
