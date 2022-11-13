@@ -99,7 +99,7 @@ const Beep = ({ state }) => {
   const { beepRef } = state;
   return (
     <audio id="beep" ref={beepRef}>
-      <source src="/beep.wav" type="audio/wav" />
+      <source src={process.env.REACT_APP_BEEP_SOURCE} type="audio/wav" />
       Your browser does not support the audio tag.
     </audio>
   );
