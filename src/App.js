@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const Button = (props) => {
   const { id, name, onClick } = props;
@@ -95,8 +95,18 @@ const Break = ({ state, setState }) => {
   );
 };
 
+const Beep = ({ state }) => {
+  const { beepRef } = state;
+  return (
+    <audio id="beep" ref={beepRef}>
+      <source src="/beep.wav" type="audio/wav" />
+      Your browser does not support the audio tag.
+    </audio>
+  );
+};
+
 const Timer = ({ state, setState }) => {
-  const { session, play, timer, break: breakLength, sessionFlag } = state;
+  const { session, play, timer, break: breakLength, sessionFlag, beepRef } = state;
   const min = String(Math.floor(timer / 60)).padStart(2, "0");
   const sec = String(timer % 60).padStart(2, "0");
 
@@ -122,7 +132,17 @@ const Timer = ({ state, setState }) => {
     }
   }, [sessionFlag]);
 
+  useEffect(() => {
+    if (timer === 0) {
+      beepRef.current.play();
+    }
+  }, [timer]);
+
   function reset() {
+    // stop playing beep
+    beepRef.current.pause();
+    beepRef.current.currentTime = 0;
+    // reset to defaults
     setState((state) => ({
       ...state,
       break: 5,
@@ -145,18 +165,21 @@ const Timer = ({ state, setState }) => {
       <div>
         <Button onClick={handleStartStop} id="start_stop" name="play_pause" />
         <Button id="reset" name="restart_alt" onClick={reset} />
+        <Beep state={state} />
       </div>
     </div>
   );
 };
 
 const App = () => {
+  const beepRef = useRef(null);
   const [state, setState] = useState({
     break: 5,
     session: 25,
     play: false,
     timer: 25 * 60,
     sessionFlag: true,
+    beepRef: beepRef,
   });
 
   return (
